@@ -1,3 +1,9 @@
+// Http
+var http = require('http');
+http.createServer(function(req, res) {
+	console.log('createServer');
+}).listen(5000);
+
 // Mysql Setting
 var mysql = require('mysql');
 var connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -19,7 +25,7 @@ var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function(rtmStartData) {
-	console.log('Logged in as ${rtmStartData.self.name} of team name ${rtmStartData.team.name}');
+	console.log('Logged in as ' + rtmStartData.self.name + ' of team name' + rtmStartData.team.name);
 });
 
 rtm.on(RTM_EVENTS.MESSAGE, function(message) {
