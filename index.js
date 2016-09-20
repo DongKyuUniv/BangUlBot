@@ -88,7 +88,8 @@ app.get('/', function(req, res) {
 
 app.get('/addnotice', function(req, res) {
 	console.log('add Notice !!');
-	res.send({
+	res.sendStatus(200);
+	res.json({
 	    "response_type": "in_channel",
 	    "text": "It's 80 degrees right now.",
 	    "attachments": [
@@ -98,6 +99,10 @@ app.get('/addnotice', function(req, res) {
 	    ]
 	});
 });
+
+app.post('/addnotice', function(req, res) {
+	console.log('add Notice post!!');
+})
 app.listen(5000);
 
 
