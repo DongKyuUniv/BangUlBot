@@ -3,6 +3,15 @@ var request = require('request');
 // express
 var express = require('express');
 var app = express();
+var server = app.listen(5000, function() {
+	console.log('Server start');
+	res.send('Hello world');
+});
+
+app.get('/', function(req, res) {
+	console.log('Root');
+	res.send('Hello world');
+});
 
 // Mysql Setting
 var mysql = require('mysql');
@@ -107,13 +116,6 @@ rtm.on(RTM_EVENTS.MESSAGE, function(message) {
 		rtm.sendMessage("!add - 공지 추가\n!reset - 공지 리셋\n!show detail - 공지 디테일하게 보기\n!show - 공지 보기\n!delete n - _id가 n인 공지 삭제", message.channel);
 	}
 });
-
-
-app.get('/', function(req, res) {
-	console.log('Hello world');
-	res.send('Hello world');
-});
-app.listen(5000);
 
 
 
