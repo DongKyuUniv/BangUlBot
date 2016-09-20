@@ -1,0 +1,14 @@
+{
+  "name": "bangulbot",
+  "version": "1.0.0",
+  "description": "bangulbot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bangul",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/client": "^3.6.0"
+  }
+}
