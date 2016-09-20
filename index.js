@@ -1,11 +1,3 @@
-// Http
-var http = require('http');
-http.createServer(function(req, res) {
-	console.log('createServer');
-	res.writeHead(200, {'Content-Type': 'text/plain'});
-  	res.end('Hello World\n');
-}).listen(5000);
-
 var request = require('request');
 
 // express
@@ -88,9 +80,15 @@ rtm.on(RTM_EVENTS.MESSAGE, function(message) {
 });
 
 
+app.get('/', function(req, res) {
+	console.log('Hello world');
+	res.send('Hello world');
+})
+
 
 app.get('/addnotice', function(req, res) {
 	console.log('add Notice !!');
+	res.send('add Notice');
 });
 app.listen(5000);
 
