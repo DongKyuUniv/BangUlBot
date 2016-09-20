@@ -2,12 +2,34 @@
 var http = require('http');
 http.createServer(function(req, res) {
 	console.log('createServer');
+	res.writeHead(200, {'Content-Type': 'text/plain'});
+  	res.end('Hello World\n');
 }).listen(5000);
+
+var request = require('request');
+
+// express
+var express = require('express');
+var app = express();
 
 // Mysql Setting
 var mysql = require('mysql');
-var connection = mysql.createConnection(process.env.JAWSDB_URL);
-connection.connect();
+// var connection = mysql.createConnection(process.env.JAWSDB_URL);
+var connection = mysql.createConnection({
+	host : 'localhost',
+	port: 3306,
+	user: 'root',
+	password: 'lee7945132',
+	database: 'BangUlBot'
+});
+connection.connect(function() {
+	connection.query('CREATE TABLE IF NOT EXISTS notices(_id INT PRIMARY KEY AUTO_INCREMENT, description TEXT);', function(err) {
+		if (err) {
+			console.log(err);
+			throw err;
+		}
+	});
+});
 
 var NOTICE_TABLE = "notices";
 var NOTICE_DESCRIPTION = "description";
@@ -16,16 +38,30 @@ var NOTICE_DESCRIPTION = "description";
 // Slack Bot Setting
 var RtmClient = require('@slack/client').RtmClient;
 
-var token = "xoxb-81691979618-4EM01CWH906lIVux6TVCeIMa";
+var TOKEN = "xoxb-81691979618-cOcSmcLwlhvAVpyEiJsP4sSa";
 
-var rtm = new RtmClient(token, {logLevel: 'error'});
+var rtm = new RtmClient(TOKEN, {logLevel: 'error'});
 rtm.start();
 
 var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function(rtmStartData) {
-	console.log('Logged in as ' + rtmStartData.self.name + ' of team name' + rtmStartData.team.name);
+	console.log('Logged in as ' + rtmStartData.self.name + ' of team name ' + rtmStartData.team.name);
+
+	request.post(
+	'https://slack.com/api/auth.test',
+	{json: {token: TOKEN}}, 
+	function (err, res, body) {
+		if (err) {
+			console.log(err);
+			throw err;
+		} else {
+			console.log('auth 응답');
+			console.log(body);
+		}
+	}
+);
 });
 
 rtm.on(RTM_EVENTS.MESSAGE, function(message) {
@@ -35,17 +71,28 @@ rtm.on(RTM_EVENTS.MESSAGE, function(message) {
 	console.log('author = ' + message.user);
 
 	var text = message.text;
-	if (text.include("공지show")) {
+	if (text.includes("공지!")) {
 		connection.query('SELECT * FROM ' + NOTICE_TABLE + ';', function(err, row, field) {
 			if (err) {
 				console.log(err);
 				throw err;
 			} else {
-				console.log(row);
+				console.log(row[0].description);
 				console.log(field);
+				for (var i = row.length - 1; i >= 0; i--) {
+					rtm.sendMessage(row[i].description, message.channel);
+				}
 			}
 		});
-	} else if (text.include("공지add")) {
-		// connection.query('INSERT INTO ' + NOTICE_TABLE + ' ')
 	}
 });
+
+
+
+app.get('/addnotice', function(req, res) {
+	console.log('add Notice !!');
+});
+app.listen(5000);
+
+
+
