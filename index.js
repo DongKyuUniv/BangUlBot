@@ -6,14 +6,14 @@ var app = express();
 
 // Mysql Setting
 var mysql = require('mysql');
-var connection = mysql.createConnection(process.env.JAWSDB_URL);
-// var connection = mysql.createConnection({
-// 	host : 'localhost',
-// 	port: 3306,
-// 	user: 'root',
-// 	password: 'lee7945132',
-// 	database: 'BangUlBot'
-// });
+// var connection = mysql.createConnection(process.env.JAWSDB_URL);
+var connection = mysql.createConnection({
+	host : 'localhost',
+	port: 3306,
+	user: 'root',
+	password: 'lee7945132',
+	database: 'BangUlBot'
+});
 connection.connect(function() {
 	connection.query('CREATE TABLE IF NOT EXISTS notices(_id INT PRIMARY KEY AUTO_INCREMENT, description TEXT);', function(err) {
 		if (err) {
@@ -30,7 +30,7 @@ var NOTICE_DESCRIPTION = "description";
 // Slack Bot Setting
 var RtmClient = require('@slack/client').RtmClient;
 
-var TOKEN = "xoxb-81691979618-OXLVhSqdtenga5wAKTbKujiJ";
+var TOKEN = "xoxb-81691979618-76DkYfVnrWVyPq06Kptl6yH2";
 
 var rtm = new RtmClient(TOKEN, {logLevel: 'error'});
 rtm.start();
