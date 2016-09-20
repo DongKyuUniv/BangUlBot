@@ -30,7 +30,7 @@ var NOTICE_DESCRIPTION = "description";
 // Slack Bot Setting
 var RtmClient = require('@slack/client').RtmClient;
 
-var TOKEN = "xoxb-81691979618-76DkYfVnrWVyPq06Kptl6yH2";
+var TOKEN = "xoxb-81691979618-OWHso1Xi4z3plIDUhpgFjsnR";
 
 var rtm = new RtmClient(TOKEN, {logLevel: 'error'});
 rtm.start();
