@@ -88,7 +88,17 @@ app.get('/', function(req, res) {
 
 app.get('/addnotice', function(req, res) {
 	console.log('add Notice !!');
-	res.send('add Notice');
+	res.send({
+		json: {
+		    "response_type": "in_channel",
+		    "text": "It's 80 degrees right now.",
+		    "attachments": [
+		        {
+		            "text":"Partly cloudy today and tomorrow"
+		        }
+		    ]
+		}
+	});
 });
 app.listen(5000);
 
